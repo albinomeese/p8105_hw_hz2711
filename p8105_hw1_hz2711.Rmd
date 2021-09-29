@@ -5,17 +5,38 @@ date: 2021-09-28
 output: github_document
 ---
 
-# Section 1
+# Problem 1
 
-Here's a **code chunk** that samples from 
-a _normal distribution_:
+A random sample of size 10 from a standard Normal distribution
 
 ```{r}
-samp = rnorm(100)
-length(samp)
+library(tidyverse)
+
+hw1_df = tibble(
+  samp = rnorm(10),
+  vec_logical = ifelse(samp > 0, TRUE, FALSE),
+  vec_char = rep(c("New York", "Chicago", "Los Angeles"), length.out = 10),
+  vec_factor = factor(rep(c("East Coast", "Midwest", "West Coast"), length.out = 10))
+)
+
+hw1_df
+
+mean(hw1_df$samp)
+mean(hw1_df$vec_logical)
+mean(hw1_df$vec_char)
+mean(hw1_df$vec_factor)
 ```
 
-# Section 2
+It appears we can take the mean of the random numbers and the logical vector but not the character vector or the factor vector.
 
-I can take the mean of the sample, too!
-The mean is `r mean(samp)`.
+# Problem 2
+
+Plot
+```{r}
+plot_df = tibble(
+  x = rnorm(100),
+  y = 2*x
+)
+
+ggplot(plot_df, aes(x = x, y = y)) + geom_point()
+```
