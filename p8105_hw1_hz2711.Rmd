@@ -29,14 +29,41 @@ mean(hw1_df$vec_factor)
 
 It appears we can take the mean of the random numbers and the logical vector but not the character vector or the factor vector.
 
+```{r, eval = FALSE}
+as.numeric(hw1_df$samp)
+as.numeric(hw1_df$vec_logical)
+as.numeric(hw1_df$vec_char)
+as.numeric(hw1_df$vec_factor)
+```
+
+The random numbers and logical vector are actually numbers. The character vector appears as NA since it is a string, and factor vector translates to levels, but not numbers. Therefore, the mean can only be taken for the first two. 
+
 # Problem 2
 
-Plot
+## Palmer Penguins
 ```{r}
-plot_df = tibble(
-  x = rnorm(100),
-  y = 2*x
-)
+data("penguins", package = "palmerpenguins")
 
-ggplot(plot_df, aes(x = x, y = y)) + geom_point()
+rows = nrow(penguins)
+cols = ncol(penguins)
+total = rows*cols
+
+penguin_variables = names(penguins)
+
+mean_flipper = penguins %>% drop_na() %>% summarise(mean(flipper_length_mm)) %>% round(digits = 2)
+```
+
+There are **`r rows`** rows and **`r cols`** columns in this data set for a total of **`r total`** values.
+
+The variables in this data set are **`r penguin_variables`**
+
+The mean flipper length is **`r mean_flipper`** mm.
+
+```{r}
+scatter = penguins %>% drop_na() %>% 
+ggplot((aes(bill_length_mm, flipper_length_mm, color = species))) + geom_point()
+
+ggsave("hw1_scatterplot.pdf", plot = scatter)
+
+scatter
 ```
